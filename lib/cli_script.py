@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
-from models import Main
+
+from models import Expense, Category
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 if __name__ == '__main__':
-    engine = create_engine('sqlite:///lib/database.db')
+    engine = create_engine('sqlite:///database.db')
     Session = sessionmaker(bind=engine)
     session = Session()
 
-    print("Welcome to my CLI.")
+    print('''Expense Tracker''')
 
-    delete = session.query(Main).all()
-
-    for row in delete:
-        session.delete(row)
+    expense = Expense()
+    # category = Category(name='Misc.')
+    # session.add(category)
     session.commit()
     session.close()
 
