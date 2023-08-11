@@ -1,22 +1,10 @@
 #!/usr/bin/env python3
 
-from models import Expense, Category
+from models import Expense
+from helpers import print_main_menu, option_1
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker   
-
-def print_main_menu():
-    print('''
-Enter option number and press 'enter'              
-1. View all
-2. Add
-3. Edit
-4. Delete
-5. Filter
-6. Export
-7. Exit
-    ''')
-
 
 if __name__ == '__main__':
     engine = create_engine('sqlite:///database.db')
@@ -34,14 +22,10 @@ if __name__ == '__main__':
 
     print_main_menu()
     while True:
-        menu_option = input()
+        menu_option = input("Select option: ")
         if menu_option.isdigit() and menu_option > '0' and menu_option < '8':
             if menu_option == '1':
-                print('All expenses:')
-                results = session.query(Expense).all()
-                for result in results:
-                    print(result)
-                print('\nSelect next menu option.')
+                option_1(session, Expense)
             elif menu_option == '2':
                 pass
             elif menu_option == '3':
