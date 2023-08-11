@@ -14,6 +14,9 @@ class Expense(Base):
 
     category = relationship('Category', back_populates='expenses')
 
+    def __repr__(self):
+        return f'Title: {self.title} | Amount: {self.amount} | Category: {self.category.name}'
+
 class Category(Base):
     __tablename__ = "categories"
 
