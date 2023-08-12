@@ -27,7 +27,7 @@ if __name__ == '__main__':
             if menu_option == '1':
                 option_1(session, Expense)
             elif menu_option == '2':
-                option_2(session, Expense, Category)
+                option_2(session, Expense)
             elif menu_option == '3':
                 pass
             elif menu_option == '4':
@@ -40,13 +40,11 @@ if __name__ == '__main__':
                 print('Goodbye!')
                 break
         else:
-            print('Please enter a valid menu option.')
+            print('PLEASE ENTER VALID MENU OPTION')
     
-    session.commit()
-    
-    # rent_category = session.query(Category).filter_by(name='Fun').first()
-    # expense = Expense(title='utilities', amount=200, category=rent_category)
-    # session.add(expense)
+    # expense = session.query(Expense).filter_by(id=5).first()
+    # expense.category_id = 4
+    # session.commit()
     session.close()
 
     # import ipdb; ipdb.set_trace()

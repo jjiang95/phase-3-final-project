@@ -18,15 +18,24 @@ def option_1(session, expense):
     for result in results:
         print(result)
 
-def option_2(session, expense, category):
+def option_2(session, expense):
     print('ADD EXPENSE')
     title = input("TITLE: ")
-    amount = input("AMOUNT: ")
-    category_id = input("CHOOSE CATEGORY: 1. Fun 2. Bills 3. Food 4. Misc.\n")
+    while True:
+        amount = input("AMOUNT: ")
+        if amount.isnumeric():
+            break
+        else:
+            print('PLEASE ENTER A WHOLE NUMBER')
+    while True:    
+        category_id = input("CHOOSE CATEGORY: 1. Fun 2. Bills 3. Food 4. Misc.\n")
+        if category_id.isdigit() and '1' <= category_id <= '4':
+            break
+        else:
+            print('PLEASE ENTER VALID OPTION')
     
-    category = session.query(category).filter_by(id=category_id).first()
-    expense = expense(title=title, amount=amount, category=category, date=datetime.now())
+    expense = expense(title=title, amount=amount, category_id=category_id, date=datetime.now())
     session.add(expense)
     session.commit()
-    print('EXPENSE ADDED')
+    print('EXPENSE ADDED\n')
 

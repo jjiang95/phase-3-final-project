@@ -1,4 +1,4 @@
-from sqlalchemy import (Column, String, Integer, ForeignKey, DateTime)
+from sqlalchemy import (Column, String, Integer, ForeignKey, Date)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -10,7 +10,7 @@ class Expense(Base):
     id = Column(Integer(), primary_key=True)
     title = Column(String())
     amount = Column(Integer())
-    date = Column(DateTime)
+    date = Column(Date)
     category_id = Column(Integer(), ForeignKey('categories.id'))
 
     category = relationship('Category', back_populates='expenses')
@@ -19,7 +19,7 @@ class Expense(Base):
         return self.date.strftime("%m/%y")
 
     def __repr__(self):
-        return f'Title: {self.title} | Amount: {self.amount} | Category: {self.category.name} | Date: {self.format_date()}'
+        return f'Title: {self.title} | Amount: ${self.amount}.00 | Category: {self.category.name} | Date: {self.format_date()}'
 
 class Category(Base):
     __tablename__ = "categories"
