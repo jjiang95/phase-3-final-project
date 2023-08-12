@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
-from models import Expense
-from helpers import print_main_menu, option_1
+from models import Expense, Category
+from helpers import print_main_menu, option_1, option_2
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime   
 
 if __name__ == '__main__':
     engine = create_engine('sqlite:///database.db')
@@ -23,12 +22,12 @@ if __name__ == '__main__':
 
     print_main_menu()
     while True:
-        menu_option = input("Select menu option: ")
+        menu_option = input("SELECT MENU OPTION: ")
         if menu_option.isdigit() and menu_option > '0' and menu_option < '8':
             if menu_option == '1':
                 option_1(session, Expense)
             elif menu_option == '2':
-                pass
+                option_2(session, Expense, Category)
             elif menu_option == '3':
                 pass
             elif menu_option == '4':
