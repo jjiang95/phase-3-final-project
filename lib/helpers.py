@@ -1,7 +1,7 @@
 from datetime import datetime
 
 def print_main_menu():
-    print('''Enter option number and press 'enter'              
+    print('''ENTER OPTION NUMBER AND PRESS 'ENTER'              
 1. View all
 2. Add
 3. Edit
@@ -27,20 +27,25 @@ def validate_input():
     
     return [title, amount, category_id]
 
-def option_1(session, expense):
+def option_1_view_all(session, expense):
     results = session.query(expense).all()
-    for result in results:
-        print(result)
+    if results:
+        for result in results:
+            print(result)
+    else:
+        print('none')
     
-def option_2(session, expense):
+def option_2_add(session, expense):
+    print('ADD EXPENSE: ')    
     values = validate_input()
     expense = expense(title=values[0], amount=values[1], category_id=values[2], date=datetime.now())
     session.add(expense)
     session.commit()
+    print('EXPENSE ADDED\n')
 
-def option_3(session, expense):
-    print('SELECT EXPENSE TO EDIT')
-    option_1(session, expense)
+def option_3_edit(session, expense):
+    print('SELECT EXPENSE TO EDIT: ')
+    option_1_view_all(session, expense)
     while True:
         id = input('EXPENSE ID: ')
         selected_expense = session.query(expense).filter_by(id=id).first()
@@ -50,7 +55,23 @@ def option_3(session, expense):
             selected_expense.amount = values[1]
             selected_expense.category_id = values[2]
             session.commit()
-            print(f'EXPENSE EDITED\n{selected_expense}')
+            print(f'\nEDITED:\n{selected_expense}')
             break
         else:
             print('INVALID ID')
+
+def option_4_delete(session, expense):
+    print('SELECT EXPENSE TO DELETE: ')
+    option_1_view_all(session, expense)
+    while True:
+        id = input('EXPENSE ID: ')
+        selected_expense = session.query(expense).filter_by(id=id).first()
+        if selected_expense:
+            session.delete(selected_expense)
+            session.commit()
+            print(f'\nSUCCESSFULLY DELETED')
+            break
+        else:
+            print('INVALID ID')
+
+

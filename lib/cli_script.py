@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from models import Expense
-from helpers import print_main_menu, option_1, option_2, option_3
+from helpers import print_main_menu, option_1_view_all, option_2_add, option_3_edit, option_4_delete
 from datetime import datetime
 
 from sqlalchemy import create_engine
@@ -30,22 +30,20 @@ if __name__ == '__main__':
         menu_option = input("\nSELECT MENU OPTION: ")
         if menu_option.isdigit() and menu_option > '0' and menu_option < '8':
             if menu_option == '1':
-                print('ALL EXPENSES')
-                option_1(session, Expense)
+                print('ALL EXPENSES: ')
+                option_1_view_all(session, Expense)
             elif menu_option == '2':
-                print('ADD EXPENSE')
-                option_2(session, Expense)
-                print('EXPENSE ADDED\n')
+                option_2_add(session, Expense)
             elif menu_option == '3':
-                option_3(session, Expense)
+                option_3_edit(session, Expense)
             elif menu_option == '4':
-                pass
+                option_4_delete(session, Expense)
             elif menu_option == '5':
                 pass
             elif menu_option == '6':
                 pass
             else:
-                print('Goodbye!')
+                print('GOODBYE!')
                 break
         else:
             print('PLEASE ENTER VALID MENU OPTION')
