@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from models import Expense
-from helpers import print_main_menu, option_1_view_all, option_2_add, option_3_edit, option_4_delete
+from helpers import print_main_menu, option_1_view_all, option_2_add, option_3_edit, option_4_delete, option_5_filter
 from datetime import datetime
 
 from sqlalchemy import create_engine
@@ -39,7 +39,7 @@ if __name__ == '__main__':
             elif menu_option == '4':
                 option_4_delete(session, Expense)
             elif menu_option == '5':
-                pass
+                option_5_filter(session, Expense)
             elif menu_option == '6':
                 pass
             else:
@@ -48,5 +48,4 @@ if __name__ == '__main__':
         else:
             print('PLEASE ENTER VALID MENU OPTION')
     
-
     # import ipdb; ipdb.set_trace()

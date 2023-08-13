@@ -1,4 +1,5 @@
 from datetime import datetime
+from sqlalchemy import extract
 
 def print_main_menu():
     print('''ENTER OPTION NUMBER AND PRESS 'ENTER'              
@@ -7,7 +8,7 @@ def print_main_menu():
 3. Edit
 4. Delete
 5. Filter
-6. Export
+6. Aggregate
 7. Exit''')
 
 def validate_input():
@@ -41,7 +42,7 @@ def option_2_add(session, expense):
     expense = expense(title=values[0], amount=values[1], category_id=values[2], date=datetime.now())
     session.add(expense)
     session.commit()
-    print('EXPENSE ADDED\n')
+    print('EXPENSE ADDED')
 
 def option_3_edit(session, expense):
     print('SELECT EXPENSE TO EDIT: ')
@@ -74,4 +75,38 @@ def option_4_delete(session, expense):
         else:
             print('INVALID ID')
 
-
+def option_5_filter(session, expense):
+    print('FILTER BY: 1. Month 2. Category')
+    while True:
+        filter = input('SELECT: ')
+        if filter.isdigit() and '1' <= filter <= '2':
+            break
+        else:
+            print('PLEASE ENTER VALID OPTION')
+    if filter == '1':
+        while True:
+            month = input('ENTER MONTH (MM): ')
+            if month.isdigit() and len(month) == 2:
+                month_int = int(month)
+                results = session.query(expense).filter(extract('month', expense.date) == month_int).all()
+                if results:
+                    for result in results:
+                        print(result)
+                    break
+                else: 
+                    print(f'NO RESULTS FOR MONTH: {month}')
+                    break
+            else:
+                print("PLEASE ENTER MONTH IN MM NUMERIC FORMAT")
+    elif filter == '2':
+        while True:
+            category = input('SELECT CATEGORY: 1. Fun 2. Bills 3. Food 4. Misc.: ')
+            if category.isdigit() and '1' <= category <= '4':
+                results = session.query(expense).filter_by(category_id=category).all()
+                for result in results:
+                    print(result)
+                break
+            else:
+                print('PLEASE ENTER VALID OPTION')
+            
+                 
