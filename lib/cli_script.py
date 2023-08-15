@@ -17,7 +17,7 @@ def main():
 ███████╗██╔╝╚██╗██║░░░░░███████╗██║░╚███║██████╔╝███████╗  ░░░██║░░░██║░░██║██║░░██║╚█████╔╝██║░╚██╗███████╗██║░░██║
 ╚══════╝╚═╝░░╚═╝╚═╝░░░░░╚══════╝╚═╝░░╚══╝╚═════╝░╚══════╝  ░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░╚═╝░╚════╝░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝
     ''')
-    options = ["View all", "Add", "Edit", "Delete", "Filter", "Agreggate", "Exit"]
+    options = ["View all", "Add", "Edit", "Delete", "Filter", "Aggregate", "Exit"]
     main_menu = TerminalMenu(options)
     while True:
         print()
@@ -35,6 +35,7 @@ def main():
         elif options[menu_entry_index] == "Aggregate":
             pass
         elif options[menu_entry_index] == "Exit":
+            print('EXITING...')
             break   
 
 if __name__ == '__main__':

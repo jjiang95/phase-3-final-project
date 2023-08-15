@@ -1,5 +1,7 @@
 from datetime import datetime
 from sqlalchemy import extract
+from simple_term_menu import TerminalMenu
+from prettycli import red
 
 def print_main_menu():
     print('''ENTER OPTION NUMBER AND PRESS 'ENTER'              
@@ -18,24 +20,26 @@ def validate_input():
         if amount.isnumeric():
             break
         else:
-            print('PLEASE ENTER A WHOLE NUMBER (ROUNDED UP)')
+            print(red('PLEASE ENTER A WHOLE NUMBER (ROUNDED UP)'))
     while True:    
         category_id = input("CHOOSE CATEGORY: 1. Fun 2. Bills 3. Food 4. Misc.\n")
         if category_id.isdigit() and '1' <= category_id <= '4':
             break
         else:
-            print('PLEASE ENTER VALID OPTION')
+            print(red('PLEASE ENTER VALID OPTION'))
     
     return [title, amount, category_id]
 
 def option_1_view_all(session, expense):
     results = session.query(expense).all()
-    print()
-    if results:
-        for result in results:
-            print(result)
-    else:
-        print('none')
+    menu_list = [str(item) for item in results]
+    expenses_menu = TerminalMenu(menu_list)
+    menu_entry_index = expenses_menu.show()
+    # if results:
+    #     for result in results:
+    #         print(result)
+    # else:
+    #     print('none')
     
 def option_2_add(session, expense):
     print('ADD EXPENSE: ')    
@@ -60,7 +64,7 @@ def option_3_edit(session, expense):
             print(f'\nEDITED:\n{selected_expense}')
             break
         else:
-            print('INVALID ID')
+            print(red('INVALID ID'))
 
 def option_4_delete(session, expense):
     print('SELECT EXPENSE TO DELETE: ')
@@ -74,7 +78,7 @@ def option_4_delete(session, expense):
             print(f'\nSUCCESSFULLY DELETED')
             break
         else:
-            print('INVALID ID')
+            print(red('INVALID ID'))
 
 def option_5_filter(session, expense):
     print('FILTER BY: 1. Month 2. Category')
@@ -83,7 +87,7 @@ def option_5_filter(session, expense):
         if filter.isdigit() and '1' <= filter <= '2':
             break
         else:
-            print('PLEASE ENTER VALID OPTION')
+            print(red('PLEASE ENTER VALID OPTION'))
     if filter == '1':
         while True:
             month = input('ENTER MONTH (MM): ')
@@ -108,6 +112,6 @@ def option_5_filter(session, expense):
                     print(result)
                 break
             else:
-                print('PLEASE ENTER VALID OPTION')
+                print(red('PLEASE ENTER VALID OPTION'))
             
                  

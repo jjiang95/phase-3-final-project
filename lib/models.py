@@ -19,7 +19,7 @@ class Expense(Base):
         return self.date.strftime("%m/%y")
 
     def __repr__(self):
-        return f'id:{self.id} {self.format_date()} - {self.title} | ${self.amount}.00 | {self.category.name}'
+        return f'{self.format_date()} - {self.title}, ${self.amount}.00, {self.category.name}'
 
 class Category(Base):
     __tablename__ = "categories"
