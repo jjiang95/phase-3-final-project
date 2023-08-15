@@ -16,7 +16,7 @@ class Expense(Base):
     category = relationship('Category', back_populates='expenses')
     
     def format_date(self):
-        return self.date.strftime("%m/%y")
+        return self.date.strftime("%m/%d/%y")
 
     def __repr__(self):
         return f'{self.format_date()} - {self.title}, ${self.amount}.00, {self.category.name}'
