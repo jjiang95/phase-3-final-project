@@ -22,20 +22,20 @@ $$$$$$$$\ $$  /\$$\ $$$$$$$  |\$$$$$$$\ $$ |  $$ |$$$$$$$  |\$$$$$$$\          $
                     $$ |                                                                                                                      
                     \__|                                                                                                                      
     ''')
-    options = ["View all", "Add", "Filter", "Aggregate", "Exit"]
-    main_menu = TerminalMenu(options, title="MAIN MENU", menu_highlight_style=("bg_black", "fg_cyan"), menu_cursor_style=("fg_blue",))
+    main_menu_options = ["View all", "Add", "Filter", "Aggregate", "Exit"]
+    main_menu = TerminalMenu(main_menu_options, title="MAIN MENU", menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
     while True:
         print()
-        menu_entry_index = main_menu.show()
-        if options[menu_entry_index] == "View all":
+        main_menu_index = main_menu.show()
+        if main_menu_options[main_menu_index] == "View all":
             view_all(session, Expense)
-        elif options[menu_entry_index] == "Add":
+        elif main_menu_options[main_menu_index] == "Add":
             add(session, Expense)
-        elif options[menu_entry_index] == "Filter":
+        elif main_menu_options[main_menu_index] == "Filter":
             filter(session, Expense)
-        elif options[menu_entry_index] == "Aggregate":
+        elif main_menu_options[main_menu_index] == "Aggregate":
             pass
-        elif options[menu_entry_index] == "Exit":
+        elif main_menu_options[main_menu_index] == "Exit":
             print('EXITING...')
             break   
 
