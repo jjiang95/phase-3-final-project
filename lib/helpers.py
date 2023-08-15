@@ -11,12 +11,19 @@ def validate_input():
             break
         else:
             print(red('PLEASE ENTER A WHOLE NUMBER (ROUNDED UP)'))
-    while True:    
-        category_id = input("CHOOSE CATEGORY: 1. Fun 2. Bills 3. Food 4. Misc.\n")
-        if category_id.isdigit() and '1' <= category_id <= '4':
-            break
-        else:
-            print(red('PLEASE ENTER VALID OPTION'))
+    category_id = 0
+    categories = ["Fun", "Bills", "Food", "Misc."]
+    category_menu = TerminalMenu(categories)
+    print("SELECT CATEGORY")
+    menu_entry_index = category_menu.show()
+    if categories[menu_entry_index] == categories[menu_entry_index]:
+        category_id = menu_entry_index + 1
+    # while True:    
+    #     category_id = input("CHOOSE CATEGORY: 1. Fun 2. Bills 3. Food 4. Misc.\n")
+    #     if category_id.isdigit() and '1' <= category_id <= '4':
+    #         break
+    #     else:
+    #         print(red('PLEASE ENTER VALID OPTION'))
     
     return [title, amount, category_id]
 
