@@ -30,6 +30,7 @@ def validate_input():
 
 def option_1_view_all(session, expense):
     results = session.query(expense).all()
+    print()
     if results:
         for result in results:
             print(result)
