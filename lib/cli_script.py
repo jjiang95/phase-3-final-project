@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from models import Expense
-from helpers import print_main_menu, option_1_view_all, option_2_add, option_3_edit, option_4_delete, option_5_filter
+from helpers import view_all, add, filter
 from datetime import datetime
 
 from simple_term_menu import TerminalMenu
@@ -17,21 +17,17 @@ def main():
 ███████╗██╔╝╚██╗██║░░░░░███████╗██║░╚███║██████╔╝███████╗  ░░░██║░░░██║░░██║██║░░██║╚█████╔╝██║░╚██╗███████╗██║░░██║
 ╚══════╝╚═╝░░╚═╝╚═╝░░░░░╚══════╝╚═╝░░╚══╝╚═════╝░╚══════╝  ░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░╚═╝░╚════╝░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝
     ''')
-    options = ["View all", "Add", "Edit", "Delete", "Filter", "Aggregate", "Exit"]
+    options = ["View all", "Add", "Filter", "Aggregate", "Exit"]
     main_menu = TerminalMenu(options)
     while True:
         print()
         menu_entry_index = main_menu.show()
         if options[menu_entry_index] == "View all":
-            option_1_view_all(session, Expense)
+            view_all(session, Expense)
         elif options[menu_entry_index] == "Add":
-            option_2_add(session, Expense)
-        elif options[menu_entry_index] == "Edit":
-            option_3_edit(session, Expense)
-        elif options[menu_entry_index] == "Delete":
-            option_4_delete(session, Expense)
+            add(session, Expense)
         elif options[menu_entry_index] == "Filter":
-            option_5_filter(session, Expense)
+            filter(session, Expense)
         elif options[menu_entry_index] == "Aggregate":
             pass
         elif options[menu_entry_index] == "Exit":

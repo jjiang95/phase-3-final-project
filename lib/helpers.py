@@ -3,16 +3,6 @@ from sqlalchemy import extract
 from simple_term_menu import TerminalMenu
 from prettycli import red
 
-def print_main_menu():
-    print('''ENTER OPTION NUMBER AND PRESS 'ENTER'              
-1. View all
-2. Add
-3. Edit
-4. Delete
-5. Filter
-6. Aggregate
-7. Exit''')
-
 def validate_input():
     title = input("TITLE: ")
     while True:
@@ -30,18 +20,29 @@ def validate_input():
     
     return [title, amount, category_id]
 
-def option_1_view_all(session, expense):
+def view_all(session, expense):
     results = session.query(expense).all()
-    menu_list = [str(item) for item in results]
-    expenses_menu = TerminalMenu(menu_list)
-    menu_entry_index = expenses_menu.show()
-    # if results:
-    #     for result in results:
-    #         print(result)
-    # else:
-    #     print('none')
+    if results:
+        menu_list = [str(item) for item in results]
+        expenses_menu = TerminalMenu(menu_list)
+        menu_entry_index = expenses_menu.show()
+        if menu_list[menu_entry_index] == menu_list[menu_entry_index]:
+            print(f'SELECTED: {menu_list[menu_entry_index]}')
+            options = ["Edit", "Delete", "Cancel"]
+            edit_or_delete = TerminalMenu(options)
+            index = edit_or_delete.show()
+            if options[index] == "Edit":
+                edit(session, expense, results[menu_entry_index].id)
+                return
+            elif options[index] == "Delete":
+                delete(session, expense, results[menu_entry_index].id)
+                return
+            elif options[index] == "Cancel":
+                return
+    else:
+        print('NO EXPENSES FOUND')
     
-def option_2_add(session, expense):
+def add(session, expense):
     print('ADD EXPENSE: ')    
     values = validate_input()
     expense = expense(title=values[0], amount=values[1], category_id=values[2], date=datetime.now())
@@ -49,38 +50,22 @@ def option_2_add(session, expense):
     session.commit()
     print('EXPENSE ADDED')
 
-def option_3_edit(session, expense):
-    print('SELECT EXPENSE TO EDIT: ')
-    option_1_view_all(session, expense)
-    while True:
-        id = input('EXPENSE ID: ')
-        selected_expense = session.query(expense).filter_by(id=id).first()
-        if selected_expense:
-            values = validate_input()
-            selected_expense.title = values[0]
-            selected_expense.amount = values[1]
-            selected_expense.category_id = values[2]
-            session.commit()
-            print(f'\nEDITED:\n{selected_expense}')
-            break
-        else:
-            print(red('INVALID ID'))
+def edit(session, expense, id):
+    selected_expense = session.query(expense).filter_by(id=id).first()
+    values = validate_input()
+    selected_expense.title = values[0]
+    selected_expense.amount = values[1]
+    selected_expense.category_id = values[2]
+    session.commit()
+    print(f'\nEDITED:\n{selected_expense}')
 
-def option_4_delete(session, expense):
-    print('SELECT EXPENSE TO DELETE: ')
-    option_1_view_all(session, expense)
-    while True:
-        id = input('EXPENSE ID: ')
-        selected_expense = session.query(expense).filter_by(id=id).first()
-        if selected_expense:
-            session.delete(selected_expense)
-            session.commit()
-            print(f'\nSUCCESSFULLY DELETED')
-            break
-        else:
-            print(red('INVALID ID'))
+def delete(session, expense, id):
+    selected_expense = session.query(expense).filter_by(id=id).first()
+    session.delete(selected_expense)
+    session.commit()
+    print(f'\nSUCCESSFULLY DELETED')
 
-def option_5_filter(session, expense):
+def filter(session, expense):
     print('FILTER BY: 1. Month 2. Category')
     while True:
         filter = input('SELECT: ')
