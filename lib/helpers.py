@@ -31,14 +31,14 @@ def view_all(session, expense):
         expenses_menu = TerminalMenu(expenses_options, menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
         expenses_menu_index = expenses_menu.show()
         print(f'SELECTED: {expenses_options[expenses_menu_index]}')
-        options = ["Edit", "Delete", "Cancel"]
-        edit_or_delete = TerminalMenu(options, menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
-        index = edit_or_delete.show()
-        if options[index] == "Edit":
+        edit_delete_options = ["Edit", "Delete", "Cancel"]
+        edit_delete_menu = TerminalMenu(edit_delete_options, menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
+        edit_delete_menu_index = edit_delete_menu.show()
+        if edit_delete_options[edit_delete_menu_index] == "Edit":
             edit(session, expense, results[expenses_menu_index].id)
-        elif options[index] == "Delete":
+        elif edit_delete_options[edit_delete_menu_index] == "Delete":
             delete(session, expense, results[expenses_menu_index].id)
-        elif options[index] == "Cancel":
+        elif edit_delete_options[edit_delete_menu_index] == "Cancel":
             return
     else:
         print(red('NO EXPENSES FOUND'))
@@ -46,8 +46,8 @@ def view_all(session, expense):
 def add(session, expense):
     print('ADD EXPENSE: ')    
     values = validate_input()
-    expense = expense(title=values[0], amount=values[1], category_id=values[2], date=values[3])
-    session.add(expense)
+    new_expense = expense(title=values[0], amount=values[1], category_id=values[2], date=values[3])
+    session.add(new_expense)
     session.commit()
     print('\nEXPENSE ADDED')
 
@@ -95,5 +95,5 @@ def filter(session, expense):
         elif filter_options[filter_menu_index] == "Cancel":
             return
     else:
-        print(red('NO EXPENSES FOUND'))            
+        print(red('NO EXPENSES FOUND'))
                  
