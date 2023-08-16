@@ -2,10 +2,17 @@ from datetime import datetime
 from simple_term_menu import TerminalMenu
 from prettycli import red
 
+def valid_date(date_string):
+    try:
+        datetime.strptime(date_string, "%m%d%y")
+        return True
+    except ValueError:
+        return False
+    
 def validate_input():
     while True:
         date = input("DATE (MMDDYY): ")
-        if date.isnumeric() and len(date) == 6:
+        if date.isnumeric() and len(date) == 6 and valid_date(date):
             break
         else:
             print(red('PLEASE ENTER DATE IN PROPER FORMAT (MMDDYY)'))
@@ -15,7 +22,7 @@ def validate_input():
         if amount.isnumeric():
             break
         else:
-            print(red('PLEASE ENTER A WHOLE NUMBER (ROUNDED UP)'))
+            print(red('PLEASE ENTER A WHOLE NUMBER (ROUNDED UP)')) 
     category_id = 0
     category_options = ["Fun", "Bills", "Food", "Misc."]
     category_menu = TerminalMenu(category_options, title="SELECT CATEGORY:", menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
@@ -49,7 +56,7 @@ def add(session, expense):
     new_expense = expense(title=values[0], amount=values[1], category_id=values[2], date=values[3])
     session.add(new_expense)
     session.commit()
-    print('\nEXPENSE ADDED')
+    print(f'\nEXPENSE ADDED: {new_expense}')
 
 def edit(session, expense, id):
     selected_expense = session.query(expense).filter_by(id=id).first()

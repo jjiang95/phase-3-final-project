@@ -45,4 +45,4 @@ if __name__ == '__main__':
     session = Session()
 
     main()
-    # import ipdb; ipdb.set_trace()
+    session.close()
