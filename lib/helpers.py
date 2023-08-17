@@ -1,8 +1,8 @@
 from datetime import datetime
+import csv
 from simple_term_menu import TerminalMenu
 from prettycli import red
 from sqlalchemy import func, extract
-import calendar
 
 def filter_menu(results):
     filter_options = ["Month", "Category", "Cancel"]
@@ -106,14 +106,32 @@ def filter(session, expense):
                 print(item)
             sum_by_category = session.query(func.sum(expense.amount)).filter(expense.category_id == selection).scalar()
             print(f"TOTAL: ${sum_by_category}.00")
-        else:
+        elif type(selection) is str:
             filtered_results = [result for result in results if result.date.strftime("%B") == selection]
             print(f"EXPENSES FOR MONTH OF: {selection}")
             for item in filtered_results:
                 print(item)
             sum_by_month = session.query(func.sum(expense.amount)).filter(extract('month', expense.date) == datetime.strptime(selection, "%B").month).scalar()
             print(f"TOTAL: ${sum_by_month}.00")
+        else:
+            return
     else:
         print(red('NO EXPENSES FOUND'))
     
-                 
+def export(session, expense):
+    all_expenses = session.query(expense).order_by(expense.date).all()
+    header = ["ID", "Title", "Amount", "Date", "Category"]
+    rows = []
+    for expense in all_expenses:
+        rows.append([
+            expense.id,
+            expense.title,
+            expense.amount,
+            expense.date,
+            expense.category.name
+        ])
+    with open(f"../exports/expenses-{datetime.now().strftime('%m-%d_%H%M%S')}.csv", mode="w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(header)
+        writer.writerows(rows)
+    print("SUCCESSFULLY EXPORTED TO ../EXPORTS FOLDER")    
