@@ -1,6 +1,8 @@
 from datetime import datetime
 from simple_term_menu import TerminalMenu
 from prettycli import red
+from sqlalchemy import func, extract
+import calendar
 
 def filter_menu(results):
     filter_options = ["Month", "Category", "Cancel"]
@@ -102,14 +104,16 @@ def filter(session, expense):
             filtered_results = [result for result in results if result.category_id == selection]
             for item in filtered_results:
                 print(item)
+            sum_by_category = session.query(func.sum(expense.amount)).filter(expense.category_id == selection).scalar()
+            print(f"TOTAL: ${sum_by_category}.00")
         else:
             filtered_results = [result for result in results if result.date.strftime("%B") == selection]
             print(f"EXPENSES FOR MONTH OF: {selection}")
             for item in filtered_results:
                 print(item)
+            sum_by_month = session.query(func.sum(expense.amount)).filter(extract('month', expense.date) == datetime.strptime(selection, "%B").month).scalar()
+            print(f"TOTAL: ${sum_by_month}.00")
     else:
         print(red('NO EXPENSES FOUND'))
-
-def aggregate(session, expense):
-    pass
+    
                  
