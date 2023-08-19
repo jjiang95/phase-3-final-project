@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from models import Expense
-from helpers import view_all, add, filter, export
+from helpers import view_all, add, filter, export, custom_select
 
 from simple_term_menu import TerminalMenu
 from sqlalchemy import create_engine
@@ -22,7 +22,7 @@ $$$$$$$$\ $$  /\$$\ $$$$$$$  |\$$$$$$$\ $$ |  $$ |$$$$$$$  |\$$$$$$$\          $
                     $$ |                                                                                                                      
                     \__|                                                                                                                      
     ''')
-    main_menu_options = ["View all", "Add", "Filter", "Export", "Exit"]
+    main_menu_options = ["View all", "Add", "Filter", "Export", "Custom Select","Exit"]
     main_menu = TerminalMenu(main_menu_options, title="MAIN MENU", menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
     while True:
         print()
@@ -35,6 +35,8 @@ $$$$$$$$\ $$  /\$$\ $$$$$$$  |\$$$$$$$\ $$ |  $$ |$$$$$$$  |\$$$$$$$\          $
             filter(session, Expense)
         elif main_menu_options[main_menu_index] == "Export":
             export(session, Expense)
+        elif main_menu_options[main_menu_index] == "Custom Select":
+            custom_select(session, Expense)
         elif main_menu_options[main_menu_index] == "Exit":
             print('EXITING...')
             break   

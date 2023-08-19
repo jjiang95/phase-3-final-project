@@ -1,5 +1,5 @@
-from datetime import datetime
 import csv
+from datetime import datetime
 from simple_term_menu import TerminalMenu
 from prettycli import red
 from sqlalchemy import func, extract
@@ -135,3 +135,17 @@ def export(session, expense):
         writer.writerow(header)
         writer.writerows(rows)
     print("SUCCESSFULLY EXPORTED TO ../EXPORTS FOLDER")    
+
+def custom_select(session, expense):
+    results = session.query(expense).order_by(expense.date).all()
+    if results:
+        print("PRESS 'SPACE' TO SELECT ENTRIES, PRESS 'ENTER' TO CONTINUE WITH CURRENT SELECTION(S)")
+        multi_select_options = [str(item) for item in results]
+        multi_select_menu = TerminalMenu(multi_select_options, multi_select_empty_ok=True, multi_select=True, multi_select_select_on_accept=False, menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
+        selections = multi_select_menu.show()
+        if selections:
+            print(selections)
+        else: 
+            print('NO EXPENSES SELECTED') 
+    else:
+        print(red('NO EXPENSES FOUND'))
