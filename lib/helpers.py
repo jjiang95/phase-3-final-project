@@ -56,13 +56,11 @@ def validate_input():
             break
         else:
             print(red('PLEASE ENTER A WHOLE NUMBER (ROUNDED UP)')) 
-    category_id = 0
     category_options = ["Fun", "Bills", "Food", "Misc."]
     category_menu = TerminalMenu(category_options, title="SELECT CATEGORY:", menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
     category_menu_index = category_menu.show()
-    category_id = category_menu_index + 1
     
-    return [title.capitalize(), amount, category_id, datetime.strptime(date, "%m%d%y")]
+    return [title.capitalize(), amount, category_menu_index + 1, datetime.strptime(date, "%m%d%y")]
 
 def view_all(session, expense):
     results = retrieve_all(session, expense)
@@ -113,7 +111,7 @@ def filter(session, expense):
     if results:
         selection = filter_menu(results)
         if type(selection) is int:
-            filtered_results = [result for result in results if result.category_id == selection]
+            filtered_results = session.query(expense).filter(expense.category_id == selection).all()
             for item in filtered_results:
                 print(item)
             sum_by_category = session.query(func.sum(expense.amount)).filter(expense.category_id == selection).scalar()
@@ -121,7 +119,7 @@ def filter(session, expense):
             export_menu(filtered_results)
 
         elif type(selection) is str:
-            filtered_results = [result for result in results if result.date.strftime("%B") == selection]
+            filtered_results = session.query(expense).filter(extract('month', expense.date) == datetime.strptime(selection, "%B").month).all()
             print(f"EXPENSES FOR MONTH OF: {selection}")
             for item in filtered_results:
                 print(item)

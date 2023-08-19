@@ -22,7 +22,7 @@ $$$$$$$$\ $$  /\$$\ $$$$$$$  |\$$$$$$$\ $$ |  $$ |$$$$$$$  |\$$$$$$$\          $
                     $$ |                                                                                                                      
                     \__|                                                                                                                      
     ''')
-    main_menu_options = ["View all", "Add", "Filter", "Export all", "Custom select","Exit"]
+    main_menu_options = ["View all", "Add", "Filter", "Export all", "Custom select", "Exit"]
     main_menu = TerminalMenu(main_menu_options, title="MAIN MENU", menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
     while True:
         print()
