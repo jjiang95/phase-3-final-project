@@ -147,17 +147,16 @@ def custom_select(session, expense):
         selections = multi_select_menu.show()
         if selections:
             selected_expenses = [results[selection] for selection in selections]
-            selected_ids = [expense.id for expense in selected_expenses]
+            sum = 0
             print('\nSELECTED:')
             for expense in selected_expenses:
                 print(expense)
-            total_export_options = ["Total", "Export", "Cancel"]
+                sum += expense.amount
+            print(f"TOTAL: ${sum}.00")
+            total_export_options = ["Export", "Back"]
             total_export_menu = TerminalMenu(total_export_options, menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
             total_export_index = total_export_menu.show()
-            if total_export_options[total_export_index] == "Total":
-                sum = session.query(func.sum(expense.amount)).filter(expense.id in (selected_ids)).scalar()
-                print(f"TOTAL: ${sum}.00")
-            elif total_export_options[total_export_index] == "Export":
+            if total_export_options[total_export_index] == "Export":
                 pass
             else:
                 return
