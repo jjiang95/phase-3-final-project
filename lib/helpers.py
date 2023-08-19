@@ -111,7 +111,7 @@ def filter(session, expense):
     if results:
         selection = filter_menu(results)
         if type(selection) is int:
-            filtered_results = session.query(expense).filter(expense.category_id == selection).all()
+            filtered_results = session.query(expense).filter(expense.category_id == selection).order_by(expense.date).all()
             for item in filtered_results:
                 print(item)
             sum_by_category = session.query(func.sum(expense.amount)).filter(expense.category_id == selection).scalar()
@@ -119,7 +119,7 @@ def filter(session, expense):
             export_menu(filtered_results)
 
         elif type(selection) is str:
-            filtered_results = session.query(expense).filter(extract('month', expense.date) == datetime.strptime(selection, "%B").month).all()
+            filtered_results = session.query(expense).filter(extract('month', expense.date) == datetime.strptime(selection, "%B").month).order_by(expense.date).all()
             print(f"EXPENSES FOR MONTH OF: {selection}")
             for item in filtered_results:
                 print(item)
