@@ -7,6 +7,15 @@ from sqlalchemy import func, extract
 def retrieve_all(session, expense):
     return session.query(expense).order_by(expense.date).all()
 
+def export_menu(expenses_list):
+    export_options = ["Export", "Back"]
+    export_menu = TerminalMenu(export_options, menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
+    export_index = export_menu.show()
+    if export_options[export_index] == "Export":
+        export(expenses_list)
+    else:
+        return
+
 def filter_menu(results):
     filter_options = ["Month", "Category", "Cancel"]
     filter_menu = TerminalMenu(filter_options, title="FILTER BY:", menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
@@ -109,6 +118,8 @@ def filter(session, expense):
                 print(item)
             sum_by_category = session.query(func.sum(expense.amount)).filter(expense.category_id == selection).scalar()
             print(f"TOTAL: ${sum_by_category}.00")
+            export_menu(filtered_results)
+
         elif type(selection) is str:
             filtered_results = [result for result in results if result.date.strftime("%B") == selection]
             print(f"EXPENSES FOR MONTH OF: {selection}")
@@ -116,8 +127,7 @@ def filter(session, expense):
                 print(item)
             sum_by_month = session.query(func.sum(expense.amount)).filter(extract('month', expense.date) == datetime.strptime(selection, "%B").month).scalar()
             print(f"TOTAL: ${sum_by_month}.00")
-        else:
-            return
+            export_menu(filtered_results)
     else:
         print(red('NO EXPENSES FOUND'))
     
@@ -153,13 +163,7 @@ def custom_select(session, expense):
                 print(expense)
                 total_sum += expense.amount
             print(f"TOTAL: ${total_sum}.00")
-            export_options = ["Export", "Back"]
-            export_menu = TerminalMenu(export_options, menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
-            export_index = export_menu.show()
-            if export_options[export_index] == "Export":
-                export(selected_expenses)
-            else:
-                return
+            export_menu(selected_expenses)
         else: 
             print('NO EXPENSES SELECTED') 
     else:
