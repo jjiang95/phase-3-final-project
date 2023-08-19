@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from models import Expense
-from helpers import view_all, add, filter, export, custom_select
+from helpers import view_all, add, filter, export, custom_select, retrieve_all
 
 from simple_term_menu import TerminalMenu
 from sqlalchemy import create_engine
@@ -34,7 +34,7 @@ $$$$$$$$\ $$  /\$$\ $$$$$$$  |\$$$$$$$\ $$ |  $$ |$$$$$$$  |\$$$$$$$\          $
         elif main_menu_options[main_menu_index] == "Filter":
             filter(session, Expense)
         elif main_menu_options[main_menu_index] == "Export":
-            export(session, Expense)
+            export(retrieve_all(session, Expense))
         elif main_menu_options[main_menu_index] == "Custom Select":
             custom_select(session, Expense)
         elif main_menu_options[main_menu_index] == "Exit":

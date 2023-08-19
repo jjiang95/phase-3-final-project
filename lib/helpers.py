@@ -4,6 +4,9 @@ from simple_term_menu import TerminalMenu
 from prettycli import red
 from sqlalchemy import func, extract
 
+def retrieve_all(session, expense):
+    return session.query(expense).order_by(expense.date).all()
+
 def filter_menu(results):
     filter_options = ["Month", "Category", "Cancel"]
     filter_menu = TerminalMenu(filter_options, title="FILTER BY:", menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
@@ -53,7 +56,7 @@ def validate_input():
     return [title.capitalize(), amount, category_id, datetime.strptime(date, "%m%d%y")]
 
 def view_all(session, expense):
-    results = session.query(expense).order_by(expense.date).all()
+    results = retrieve_all(session, expense)
     if results:
         expenses_options = [str(item) for item in results]
         expenses_menu = TerminalMenu(expenses_options, menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
@@ -97,7 +100,7 @@ def delete(session, expense, id):
     print('\nSUCCESSFULLY DELETED')
 
 def filter(session, expense):
-    results = session.query(expense).order_by(expense.date).all()
+    results = retrieve_all(session, expense)
     if results:
         selection = filter_menu(results)
         if type(selection) is int:
@@ -118,11 +121,10 @@ def filter(session, expense):
     else:
         print(red('NO EXPENSES FOUND'))
     
-def export(session, expense):
-    all_expenses = session.query(expense).order_by(expense.date).all()
+def export(expenses_list):
     header = ["ID", "Title", "Amount", "Date", "Category"]
     rows = []
-    for expense in all_expenses:
+    for expense in expenses_list:
         rows.append([
             expense.id,
             expense.title,
@@ -147,6 +149,7 @@ def custom_select(session, expense):
             print('\nSELECTED:')
             for selection in selections:
                 print(f'{multi_select_options[selection]}')
+            
         else: 
             print('NO EXPENSES SELECTED') 
     else:
