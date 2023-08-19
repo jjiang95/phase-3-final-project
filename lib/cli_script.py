@@ -22,7 +22,7 @@ $$$$$$$$\ $$  /\$$\ $$$$$$$  |\$$$$$$$\ $$ |  $$ |$$$$$$$  |\$$$$$$$\          $
                     $$ |                                                                                                                      
                     \__|                                                                                                                      
     ''')
-    main_menu_options = ["View all", "Add", "Filter", "Export", "Custom Select","Exit"]
+    main_menu_options = ["View all", "Add", "Filter", "Export all", "Custom select","Exit"]
     main_menu = TerminalMenu(main_menu_options, title="MAIN MENU", menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
     while True:
         print()
@@ -33,9 +33,9 @@ $$$$$$$$\ $$  /\$$\ $$$$$$$  |\$$$$$$$\ $$ |  $$ |$$$$$$$  |\$$$$$$$\          $
             add(session, Expense)
         elif main_menu_options[main_menu_index] == "Filter":
             filter(session, Expense)
-        elif main_menu_options[main_menu_index] == "Export":
+        elif main_menu_options[main_menu_index] == "Export all":
             export(retrieve_all(session, Expense))
-        elif main_menu_options[main_menu_index] == "Custom Select":
+        elif main_menu_options[main_menu_index] == "Custom select":
             custom_select(session, Expense)
         elif main_menu_options[main_menu_index] == "Exit":
             print('EXITING...')
