@@ -70,7 +70,7 @@ def view_all(session, expense):
             edit(session, expense, results[expenses_menu_index].id)
         elif edit_delete_options[edit_delete_menu_index] == "Delete":
             delete(session, expense, results[expenses_menu_index].id)
-        elif edit_delete_options[edit_delete_menu_index] == "Cancel":
+        else:
             return
     else:
         print(red('NO EXPENSES FOUND'))
@@ -147,15 +147,17 @@ def custom_select(session, expense):
         selections = multi_select_menu.show()
         if selections:
             selected_expenses = [results[selection] for selection in selections]
+            selected_ids = [expense.id for expense in selected_expenses]
             print('\nSELECTED:')
             for expense in selected_expenses:
-                print (expense)
+                print(expense)
             total_export_options = ["Total", "Export", "Cancel"]
             total_export_menu = TerminalMenu(total_export_options, menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
             total_export_index = total_export_menu.show()
-            if total_export_index == "Total":
-                pass
-            elif total_export_index == "Export":
+            if total_export_options[total_export_index] == "Total":
+                sum = session.query(func.sum(expense.amount)).filter(expense.id in (selected_ids)).scalar()
+                print(f"TOTAL: ${sum}.00")
+            elif total_export_options[total_export_index] == "Export":
                 pass
             else:
                 return
