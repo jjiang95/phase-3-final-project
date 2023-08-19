@@ -15,6 +15,23 @@ def export_menu(expenses_list):
         export(expenses_list)
     else:
         return
+    
+def export(expenses_list):
+    header = ["ID", "Title", "Amount", "Date", "Category"]
+    rows = []
+    for expense in expenses_list:
+        rows.append([
+            expense.id,
+            expense.title,
+            expense.amount,
+            expense.date,
+            expense.category.name
+        ])
+    with open(f"../exports/expenses-{datetime.now().strftime('%m-%d_%H%M%S')}.csv", mode="w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(header)
+        writer.writerows(rows)
+    print("SUCCESSFULLY EXPORTED TO ../EXPORTS FOLDER")    
 
 def filter_menu(results):
     filter_options = ["Month", "Category", "Cancel"]
@@ -129,22 +146,6 @@ def filter(session, expense):
     else:
         print(red('NO EXPENSES FOUND'))
     
-def export(expenses_list):
-    header = ["ID", "Title", "Amount", "Date", "Category"]
-    rows = []
-    for expense in expenses_list:
-        rows.append([
-            expense.id,
-            expense.title,
-            expense.amount,
-            expense.date,
-            expense.category.name
-        ])
-    with open(f"../exports/expenses-{datetime.now().strftime('%m-%d_%H%M%S')}.csv", mode="w", newline="") as file:
-        writer = csv.writer(file)
-        writer.writerow(header)
-        writer.writerows(rows)
-    print("SUCCESSFULLY EXPORTED TO ../EXPORTS FOLDER")    
 
 def custom_select(session, expense):
     results = retrieve_all(session, expense)

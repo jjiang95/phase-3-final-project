@@ -1,7 +1,7 @@
 
 # 💴 Expense Tracker 💴
 
-Welcome to my final project of phase 3 at Flatiron! This is a Python-based CLI application for tracking personal expenses. Add, edit, delete, filter, export, or custom-aggregate expense entries stored in an SQL database.
+Welcome to my final project of phase 3 at Flatiron, a Python-based CLI application for tracking personal expenses. Add, edit, delete, filter, export to .csv, or custom-aggregate expense entries stored in an SQL database.
 
 ## Installation
 
@@ -15,7 +15,21 @@ The entry point of the app, and the file that is run directly in the terminal. C
 
 ### helpers.py
 
-Where the functionality of the app resides. 
+Where the functionality of the app resides.
+
+`retrieve_all()` - Queries database for all data rows, sorted by date
+
+`export_menu()` - Displays option to export filtered list/custom-selected list to .csv file, calls export() method if accepted
+
+`export()` - Writes passed-in list of data objects to .csv file in ../exports folder of project directory
+
+`filter_menu()` - Displays options to sort by month or category, returns either `str` or `int` selection
+
+`filter()` - Handles filter functionality using returned value from `filter_menu()`
+
+`valid_date()` - Returns True or False depending on whether passed-in number string can be converted to a `datetime` object
+
+`validate_input()` - Checks that date and amount inputs are valid, returns list of input values
 
 ### models.py
 
