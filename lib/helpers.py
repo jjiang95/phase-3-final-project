@@ -139,17 +139,26 @@ def export(expenses_list):
     print("SUCCESSFULLY EXPORTED TO ../EXPORTS FOLDER")    
 
 def custom_select(session, expense):
-    results = session.query(expense).order_by(expense.date).all()
+    results = retrieve_all(session, expense)
     if results:
         print("PRESS 'SPACE' TO SELECT ENTRIES, PRESS 'ENTER' TO CONTINUE WITH CURRENT SELECTION(S)")
         multi_select_options = [str(item) for item in results]
         multi_select_menu = TerminalMenu(multi_select_options, multi_select_empty_ok=True, multi_select=True, multi_select_select_on_accept=False, menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
         selections = multi_select_menu.show()
         if selections:
+            selected_expenses = [results[selection] for selection in selections]
             print('\nSELECTED:')
-            for selection in selections:
-                print(f'{multi_select_options[selection]}')
-            
+            for expense in selected_expenses:
+                print (expense)
+            total_export_options = ["Total", "Export", "Cancel"]
+            total_export_menu = TerminalMenu(total_export_options, menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
+            total_export_index = total_export_menu.show()
+            if total_export_index == "Total":
+                pass
+            elif total_export_index == "Export":
+                pass
+            else:
+                return
         else: 
             print('NO EXPENSES SELECTED') 
     else:
