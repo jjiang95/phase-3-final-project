@@ -144,7 +144,9 @@ def custom_select(session, expense):
         multi_select_menu = TerminalMenu(multi_select_options, multi_select_empty_ok=True, multi_select=True, multi_select_select_on_accept=False, menu_highlight_style=("bg_black", "fg_cyan", "bold"), menu_cursor_style=("fg_blue",))
         selections = multi_select_menu.show()
         if selections:
-            print(selections)
+            print('\nSELECTED:')
+            for selection in selections:
+                print(f'{multi_select_options[selection]}')
         else: 
             print('NO EXPENSES SELECTED') 
     else:
