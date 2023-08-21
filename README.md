@@ -37,9 +37,13 @@ The entry point of the app, and the file that is run directly in the terminal. C
 
 `delete()` - Deletes entry from database after it is selected from 'view all' menu
 
-`custom_select()` - Displays multi-select menu of all existing expenses and performs custom export/aggregation functions
+`custom_select()` - Displays multi-select menu of all existing expenses and performs custom aggregation + export option
 
 ### models.py
+
+`class Expense(Base)` - SQLAlchemy model for primary data table; id, title, amount, date, and category id columns
+
+`class Category(Base)` - Contains four discreet categories of expenses: Fun, Bills, Food, Misc.; linked to Expense table via foreign key in category id column of Expense
 
 ### seed.py
 
