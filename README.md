@@ -5,7 +5,7 @@ Welcome to my final project of phase 3 at Flatiron, a Python-based CLI applicati
 
 ## Installation
 
-Requires `Python 3.8`. Fork this repository into your local files. `cd` into the repo and run `pipenv install`. Then, `pipenv shell` followed by `cd lib` and `./cli_script.py`. If you like, run `./seed.py` beforehand to seed the database with some generic entries.
+Requires `Python 3.8`. Fork this repository into your local files. `cd` into the repo and run `pipenv install`. Then, `pipenv shell` followed by `cd lib` and `./cli_script.py`. If you like, run `./seed.py` beforehand to seed the database with some generic entries. Navigate the app with arrow keys and 'enter'.
 
 ## Modules
 
@@ -15,8 +15,6 @@ The entry point of the app, and the file that is run directly in the terminal. C
 
 ### helpers.py
 
-Where the functionality of the app resides.
-
 `retrieve_all()` - Queries database for all data rows, sorted by date
 
 `export_menu()` - Displays option to export filtered list/custom-selected list to .csv file, calls export() method if accepted
@@ -25,13 +23,25 @@ Where the functionality of the app resides.
 
 `filter_menu()` - Displays options to sort by month or category, returns either `str` or `int` selection
 
-`filter()` - Handles filter functionality using returned value from `filter_menu()`
+`filter()` - Handles filter functionality (by month or category) using returned value from `filter_menu()`
 
 `valid_date()` - Returns True or False depending on whether passed-in number string can be converted to a `datetime` object
 
 `validate_input()` - Checks that date and amount inputs are valid, returns list of input values
 
+`view_all()` - Displays dynamically-generated menu for each existing entry in database; selecting any entry will lead to submenu that provides options to delete, edit, or return to main menu
+
+`add()` - Takes in validated user input and creates + persists new expense entry in database
+
+`edit()` - Edits any existing entry in database after it is selected from 'view all' menu
+
+`delete()` - Deletes entry from database after it is selected from 'view all' menu
+
+`custom_select()` - Displays multi-select menu of all existing expenses and performs custom export/aggregation functions
+
 ### models.py
+
+### seed.py
 
 ## Contribution
 
