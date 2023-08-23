@@ -110,10 +110,14 @@ def add(session, expense):
 def edit(session, expense, id):
     selected_expense = session.query(expense).filter_by(id=id).first()
     values = validate_input()
-    selected_expense.title = values[0]
-    selected_expense.amount = values[1]
-    selected_expense.category_id = values[2]
-    selected_expense.date = values[3]
+    edited_expense = {
+        "title":values[0],
+        "amount":values[1],
+        "category_id":values[2],
+        "date":values[3]
+    }
+    for key, value in edited_expense.items():
+        setattr(selected_expense, key, value)
     session.commit()
     print(f'\nEDITED: {selected_expense}')
 

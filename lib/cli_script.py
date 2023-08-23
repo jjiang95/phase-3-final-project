@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from models import Expense
+from models import Expense, Category
 from helpers import view_all, add, filter, export, custom_select, retrieve_all
 
 from simple_term_menu import TerminalMenu
