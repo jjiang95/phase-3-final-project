@@ -32,7 +32,7 @@ $$$$$$$$\ $$  /\$$\ $$$$$$$  |\$$$$$$$\ $$ |  $$ |$$$$$$$  |\$$$$$$$\          $
         elif main_menu_options[main_menu_index] == "Add":
             add(session, Expense)
         elif main_menu_options[main_menu_index] == "Filter":
-            filter(session, Expense)
+            filter(session, Expense, Category)
         elif main_menu_options[main_menu_index] == "Export all":
             export(retrieve_all(session, Expense))
         elif main_menu_options[main_menu_index] == "Custom select":

@@ -127,15 +127,16 @@ def delete(session, expense, id):
     session.commit()
     print('\nSUCCESSFULLY DELETED')
 
-def filter(session, expense):
+def filter(session, expense, category):
     results = retrieve_all(session, expense)
     if results:
         selection = filter_menu(results)
         if type(selection) is int:
-            filtered_results = session.query(expense).filter(expense.category_id == selection).order_by(expense.date).all()
+            category = session.query(category).filter_by(id=selection).first()
+            filtered_results = sorted(category.expenses, key=lambda expense: expense.date)
             for item in filtered_results:
                 print(item)
-            sum_by_category = session.query(func.sum(expense.amount)).filter(expense.category_id == selection).scalar()
+            sum_by_category = session.query(func.sum(expense.amount)).filter(expense.category == category).scalar()
             print(f"TOTAL: ${sum_by_category}.00")
             export_menu(filtered_results)
 
