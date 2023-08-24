@@ -47,7 +47,7 @@ The entry point of the app, and the file that is run directly in the terminal. C
 
 ### seed.py
 
-Run this file via `./seed.py` while in `lib` to reset database and populate with generic entries
+Run this file via `./seed.py` while in `lib` to reset database and populate with generic entries.
 
 ## Contribution
 
